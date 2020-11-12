@@ -1,0 +1,77 @@
+import com.savings.savinggoals.buildsrc.BuildVersions
+import com.savings.savinggoals.buildsrc.Versioning
+
+/*
+ * This is also a manually created file
+ * Here we will declare all default values so that we can avoid having multiple instances of the same declarations across multiple files
+ */
+
+android {
+    compileSdkVersion (BuildVersions.compileSDK)
+    buildToolsVersion (BuildVersions.buildToolsVersion)
+
+    /*
+     *Since This is a default version that will be available for all module gradles to use
+     * We do not include the application ID here since Library projects cannot set applicationId
+     * i.e applicationId "com.mvi.transaction"
+     *
+     * This will be set on the specific (non library modules like this)
+     *
+     * android {
+     *   defaultConfig.applicationId("com.money.budget.wealthy")
+     * }
+     */
+
+    defaultConfig {
+        minSdkVersion (BuildVersions.minSDK)
+        targetSdkVersion (BuildVersions.targetSDK)
+        versionCode (1)
+        versionName (Versioning.generateVersionName())
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            multiDexEnabled true
+            minifyEnabled false
+            shrinkResources false
+        }
+        release {
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig getSigningConfig()
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def appName = "Saving Goals"
+                    def outputFileName = output.outputFileName
+                    if (outputFileName != null && outputFileName.endsWith('.apk')) {
+                        def fileName = appName + " " + defaultConfig.versionName + ".apk"
+                        output.outputFileName = new File((String) outputFileName, (String) fileName)
+                    }
+                }
+            }
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    buildFeatures.viewBinding = true
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}

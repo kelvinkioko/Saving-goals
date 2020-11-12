@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#49b583</color>
+    <color name="colorPrimaryDark">#f2f3f4</color>
+    <color name="colorAccent">#49b583</color>
+    <color name="colorBackground">#f7f7f7</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorSplash">#191919</color>
+
+    <!--    Text    -->
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="hint_text">#aeb0a5</color>
+
+    <color name="divider">#50aeb0a5</color>
+
+    <color name="statusBarColor">#2e95ec</color>
+
+    <!--    State colors    -->
+    <color name="colorPositive">#38aba5</color>
+    <color name="colorNegative">#e25d6f</color>
+    <color name="colorIdle">#ffb74d</color>
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="header_background">#e0e0e0</color>
+
+    <!--    Bottom Bar      -->
+    <color name="bottomInactive">#666666</color>
+    <color name="bottomActive">#2e95ec</color>
+
+</resources>

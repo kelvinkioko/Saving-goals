@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="emphasisHighAlpha" format="float"/>
+
+    <declare-styleable name="GenericClickableItem">
+        <attr name="text" format="string" />
+        <attr name="subText" format="string" />
+        <attr name="profile" format="reference" />
+    </declare-styleable>
+</resources>

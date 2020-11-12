@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="hard_corner_cuts">18dp</dimen>
+
+    <dimen name="min_touch_target_size">48dp</dimen>
+    <dimen name="min_icon_target_padding">12dp</dimen>
+
+    <!--BottomAppBar-->
+    <dimen name="bottom_app_bar_height">56dp</dimen>
+    <dimen name="bottom_app_bar_fab_cradle_corner_radius">32dp</dimen>
+    <dimen name="bottom_app_bar_fab_cradle_margin">8dp</dimen>
+    <dimen name="bottom_app_bar_logo_size">32dp</dimen>
+
+    <!--Layout-->
+    <!--Reply uses an 8dp grid system. Smaller components can align to a 2dp 'sub' grid.-->
+
+    <!--2dp sub grid-->
+    <dimen name="grid_0_25">2dp</dimen>
+    <dimen name="grid_0_5">4dp</dimen>
+
+    <!--8dp grid-->
+    <dimen name="grid_1">8dp</dimen>
+    <dimen name="grid_2">16dp</dimen>
+    <dimen name="grid_3">24dp</dimen>
+    <dimen name="grid_4">32dp</dimen>
+
+    <dimen name="reply_small_component_corner_radius">24dp</dimen>
+    <dimen name="reply_medium_component_corner_radius">0dp</dimen>
+    <dimen name="reply_large_component_corner_radius">12dp</dimen>
+</resources>

@@ -1,0 +1,85 @@
+import com.savings.savinggoals.buildsrc.Dependencies
+
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("org.jetbrains.kotlin.kapt")
+    id("androidx.navigation.safeargs.kotlin")
+}
+
+apply from: "$rootProject.projectDir/android_defaults.gradle"
+
+android {
+    defaultConfig.applicationId("com.savings.savinggoals")
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api(Dependencies.Kotlin.stdlib)
+    api(Dependencies.AndroidX.appcompat)
+    api(Dependencies.AndroidX.core_ktx)
+    api(Dependencies.AndroidX.constraintLayout)
+    api(Dependencies.AndroidX.legacy)
+
+    // -- Lifecycle Components (ViewModel, LiveData and ReactiveStreams)
+    api(Dependencies.AndroidX.Lifecycle.common)
+    api(Dependencies.AndroidX.Lifecycle.livedata)
+    api(Dependencies.AndroidX.Lifecycle.runtime)
+    api(Dependencies.AndroidX.Lifecycle.viewmodel)
+
+    // -- Room DB
+    implementation(Dependencies.RoomDB.room_runtime)
+    implementation(Dependencies.RoomDB.room_ktx)
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+    kapt(Dependencies.RoomDB.room_compiler)
+
+    // -- Coroutines
+    api(Dependencies.Kotlin.Coroutines.core)
+    api(Dependencies.Kotlin.Coroutines.android)
+
+    // RecyclerView
+    api(Dependencies.AndroidX.Recycler.recyclerView)
+
+    // Google Material
+    api(Dependencies.Material.google_material)
+
+    api(Dependencies.FlowBinding)
+
+    api(Dependencies.Koin.core)
+    api(Dependencies.Koin.android_core)
+    api(Dependencies.Koin.viewmodel)
+
+    api(Dependencies.Kotlin.Coroutines.core)
+    api(Dependencies.Kotlin.Coroutines.android)
+
+    // Kotlin
+    api(Dependencies.AndroidX.Navigation.fragment)
+    api(Dependencies.AndroidX.Navigation.ui)
+
+    // Dynamic Feature Module Support
+    api(Dependencies.AndroidX.Navigation.dynamic_features_fragment)
+
+    api(Dependencies.Coil)
+
+    api(Dependencies.Lottie)
+
+    // Testing Navigation
+    androidTestImplementation Dependencies.AndroidX.Navigation.test
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation(Dependencies.Timber.core)
+
+    api(Dependencies.Jsoup)
+    api(Dependencies.JodaTime)
+
+    //Image Loader Library
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
+
+    implementation 'com.facebook.android:audience-network-sdk:6.1.0'
+}
