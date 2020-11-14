@@ -25,8 +25,8 @@
 
     <color name="header_background">#e0e0e0</color>
 
-    <!--    Bottom Bar      -->
-    <color name="bottomInactive">#666666</color>
-    <color name="bottomActive">#2e95ec</color>
+    <color name="round_corner_progress_bar_background_default">#5f5f5f</color>
+    <color name="round_corner_progress_bar_progress_default">#7f7f7f</color>
+    <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent</color>
 
 </resources>

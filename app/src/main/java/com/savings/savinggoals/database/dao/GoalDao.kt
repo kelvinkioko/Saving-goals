@@ -13,6 +13,9 @@ interface GoalDao {
     @Query("SELECT * FROM goal ORDER BY goal_date ASC")
     fun loadGoal(): List<GoalEntity>
 
+    @Query("SELECT * FROM goal WHERE goalID = :goalID")
+    fun loadGoalByID(goalID: String): GoalEntity
+
     @Query("SELECT COUNT(id) FROM goal")
     fun countGoal(): Int
 

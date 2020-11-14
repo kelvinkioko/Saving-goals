@@ -65,8 +65,15 @@ class GoalTypeBottomSheet(private val goalTypeID: String, val resendGoalTypeCall
         goals.add(
             GoalTypeEntity(
                 goalTypeID = "GT01",
-                goalType = "Target saving",
+                goalType = "Target Amount Saving",
                 description = "This a target saving where you save for a specific goal. i.e New phone or that bucket list trip"
+            )
+        )
+        goals.add(
+            GoalTypeEntity(
+                goalTypeID = "GT02",
+                goalType = "Fixed Amount Saving",
+                description = "This starts with a specific amount and saving is open to any amount any day"
             )
         )
 

@@ -14,6 +14,7 @@ import androidx.navigation.ui.onNavDestinationSelected
 import com.savings.savinggoals.R
 import com.savings.savinggoals.constants.setup.DefaultUIState
 import com.savings.savinggoals.constants.setup.DefaultViewModel
+import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.databinding.HomeFragmentBinding
 import com.savings.savinggoals.util.observeEvent
 import com.savings.savinggoals.util.viewBinding
@@ -25,6 +26,14 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
 
     private val viewModel: HomeViewModel by viewModel()
     private val setupViewModel: DefaultViewModel by viewModel()
+
+    private val homeAdapter: HomeAdapter by lazy {
+        HomeAdapter { onGoalPicked(it) }
+    }
+
+    private fun onGoalPicked(goal: GoalEntity) {
+        viewModel.viewGoal(goalID = goal.goalID)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +53,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners()
+        setupGoalsList()
         setupObservers()
 
         binding.apply {
@@ -68,6 +78,12 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     }
 
     private fun setupObservers() {
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is HomeUIState.DisplayGoals -> populateGoals(it.goalsEntity)
+            }
+        }
+
         viewModel.action.observeEvent(viewLifecycleOwner) {
             when (it) {
                 is HomeActions.Navigate -> findNavController().navigate(it.destination)
@@ -83,5 +99,18 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val navController = findNavController()
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+    }
+
+    private fun setupGoalsList() {
+        binding.goalsList.adapter = homeAdapter
+    }
+
+    private fun populateGoals(goalsEntity: List<GoalEntity>) {
+        homeAdapter.setGoals(goalsEntity)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadGoals()
     }
 }

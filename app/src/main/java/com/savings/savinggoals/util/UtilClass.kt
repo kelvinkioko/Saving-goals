@@ -129,6 +129,15 @@ fun String.dateFormat(): String {
     return SimpleDateFormat("dd MMM, YYYY", Locale.getDefault()).format(d)
 }
 
+fun amountFormatter(amount: String): String {
+    val locale: Locale = Locale.UK
+    val currency = Currency.getInstance(locale)
+    val cleanString = amount.replace("[,.]".toRegex(), "")
+    val parsed = cleanString.toDouble()
+    val formatted = NumberFormat.getCurrencyInstance(locale).format(parsed / 100)
+    return formatted.replace("[${currency.symbol}]".toRegex(), "")
+}
+
 private class UtilsClass {
 
     companion object {

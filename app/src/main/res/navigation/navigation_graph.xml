@@ -20,6 +20,19 @@
             app:destination="@id/addGoalFragment"
             app:enterAnim="@anim/slide_in_from_bottom"
             app:popExitAnim="@anim/slide_out_to_bottom" />
+        <action
+            android:id="@+id/toGoalFragment"
+            app:destination="@id/goalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/goalFragment"
+        android:name="com.savings.savinggoals.ui.goal.GoalFragment"
+        android:label="Goal fragment"
+        tools:layout="@layout/goal_fragment" >
+        <argument
+            android:name="goalID"
+            app:argType="string" />
     </fragment>
 
     <fragment

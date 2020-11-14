@@ -206,6 +206,13 @@ fun getCurrentDateAsDate(): Date {
     return calendar.time
 }
 
+fun String.formatAmount(): String {
+    val pattern = "###,##0.00"
+    val decFormat = DecimalFormat(pattern)
+    if (this.isNullOrEmpty()) return "0.00"
+    return decFormat.format(this.toDouble())
+}
+
 @SuppressLint("SimpleDateFormat")
 fun formatDateHeader(date: String): String {
     val inFormat = SimpleDateFormat("dd/MM/yyyy")

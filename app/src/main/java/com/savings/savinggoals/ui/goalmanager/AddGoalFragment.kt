@@ -200,8 +200,4 @@ class AddGoalFragment : Fragment(R.layout.add_goal_fragment) {
     private fun showDialog(bottomSheetDialogFragment: BottomSheetDialogFragment) {
         bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
     }
-
-    private fun cleanAmount(dirtyAmount: String): String {
-        return dirtyAmount.split(" ")[0]
-    }
 }

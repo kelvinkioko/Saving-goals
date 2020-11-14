@@ -32,7 +32,18 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goalsList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_goal"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addGoal"

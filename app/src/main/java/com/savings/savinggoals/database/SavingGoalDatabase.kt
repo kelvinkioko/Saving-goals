@@ -7,16 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.savings.savinggoals.database.dao.CurrencyDao
 import com.savings.savinggoals.database.dao.GoalDao
+import com.savings.savinggoals.database.dao.GoalSavingDao
 import com.savings.savinggoals.database.entity.CurrencyEntity
 import com.savings.savinggoals.database.entity.GoalEntity
+import com.savings.savinggoals.database.entity.GoalSavingEntity
 import com.savings.savinggoals.util.Converters
 
-@Database(entities = [CurrencyEntity::class, GoalEntity::class], version = 1)
+@Database(entities = [CurrencyEntity::class, GoalEntity::class, GoalSavingEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class SavingGoalDatabase : RoomDatabase() {
 
     abstract fun currencyDao(): CurrencyDao
     abstract fun goalDao(): GoalDao
+    abstract fun goalSavingDao(): GoalSavingDao
 
     companion object {
         @Volatile

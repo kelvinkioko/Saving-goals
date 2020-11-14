@@ -1,13 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.goal.GoalFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</FrameLayout>
+    <com.savings.savinggoals.widget.progress.ArcProgress
+        android:id="@+id/goalProgress"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginVertical="32dp"
+        app:arc_bottom_text_size="12dp"
+        app:arc_progress="0"
+        app:arc_stroke_width="14dp"
+        app:arc_suffix_text_size="0sp"
+        app:arc_text_color="@color/colorPositive"
+        app:arc_text_size="0sp"
+        app:arc_unfinished_color="#2549b583"
+        app:arc_finished_color="@color/colorAccent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <TextView
+        android:id="@+id/goalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@+id/goalProgress"
+        android:text="0.00 KES / 152,000.00 KES"/>
+
+    <TextView
+        android:id="@+id/goalTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Settings"
+        android:textColor="@color/primary_text"
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@+id/goalAmount"/>
+
+    <TextView
+        android:id="@+id/goalType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textSize="13sp"
+        android:maxLines="2"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/goalTitle"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        android:text="52 Week challenge"/>
+
+    <TextView
+        android:id="@+id/goalDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintTop_toBottomOf="@+id/goalType"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        tools:text="Takezo Kensei"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider"
+        app:layout_constraintTop_toBottomOf="@+id/goalDescription"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"/>
+
+    <TextView
+        android:id="@+id/savingProgressTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Saving history"
+        android:textColor="@color/primary_text"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@+id/goalDescription"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goalSavingList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingBottom="56dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savingProgressTitle"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_saving"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/addSaving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add saving"
+        android:textAllCaps="false"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        app:icon="@drawable/ic_add_goal"
+        app:iconTint="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
