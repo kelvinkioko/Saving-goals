@@ -16,6 +16,9 @@ interface GoalSavingDao {
     @Query("SELECT COUNT(id) FROM goal_saving")
     fun countGoalSaving(): Int
 
+    @Query("UPDATE goal_saving SET save_status =:save_status WHERE savingID = :savingID")
+    fun updateGoalSaving(savingID: String, save_status: String)
+
     @Query("DELETE FROM goal_saving")
     fun deleteGoalSaving()
 }

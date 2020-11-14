@@ -30,6 +30,10 @@ class GoalRepository(application: Application) {
         goalDao.updateGoalAmount(goalID = goalID, amount = amount)
     }
 
+    fun updateTargetAmount(goalID: String, target_amount: String) {
+        goalDao.updateTargetAmount(goalID = goalID, target_amount = target_amount)
+    }
+
     fun deleteGoalByID(goalID: String) {
         goalDao.deleteGoalByID(goalID = goalID)
     }
@@ -51,6 +55,10 @@ class GoalRepository(application: Application) {
 
     fun countGoalSaving(): Int {
         return goalSavingDao.countGoalSaving()
+    }
+
+    fun updateGoalSaving(savingID: String, save_status: String) {
+        goalSavingDao.updateGoalSaving(savingID = savingID, save_status = save_status)
     }
 
     fun deleteGoalSaving() {

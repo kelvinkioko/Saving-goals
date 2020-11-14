@@ -14,7 +14,9 @@ data class GoalSavingEntity(
 
     @ColumnInfo(name = "savingID") var savingID: String,
     @ColumnInfo(name = "goalID") var goalID: String,
-    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "weekPosition") var weekPosition: String = "",
+    @ColumnInfo(name = "startDate") var startDate: String = "",
+    @ColumnInfo(name = "endDate") var endDate: String = "",
     @ColumnInfo(name = "amount") var amount: String,
     @ColumnInfo(name = "note") var note: String,
     @ColumnInfo(name = "save_type") var save_type: String,

@@ -3,9 +3,9 @@ package com.savings.savinggoals.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.savings.savinggoals.constants.formatAmount
 import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.databinding.ItemGoalBinding
+import com.savings.savinggoals.util.formatAmount
 
 class HomeAdapter(private val goalTypeClicked: (GoalEntity) -> Unit) :
     RecyclerView.Adapter<HomeAdapter.TransactionViewHolder>() {

@@ -7,10 +7,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.savings.savinggoals.R
-import com.savings.savinggoals.constants.formatAmount
 import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.database.entity.GoalSavingEntity
 import com.savings.savinggoals.databinding.GoalFragmentBinding
+import com.savings.savinggoals.util.formatAmount
 import com.savings.savinggoals.util.observeEvent
 import com.savings.savinggoals.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,6 +27,7 @@ class GoalFragment : Fragment(R.layout.goal_fragment) {
     }
 
     private fun onGoalSavingPicked(goal: GoalSavingEntity) {
+        viewModel.manageGoalSavingClick(goalSaving = goal)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,7 +67,7 @@ class GoalFragment : Fragment(R.layout.goal_fragment) {
             when (it) {
                 is GoalUIState.DisplayGoal -> {
                     renderGoalDetails(it.goalEntity)
-                    populateGoalSavings(goalSavingEntity = it.goalSavingEntity, currency = it.goalEntity.currency)
+                    populateGoalSavings(goalSavingEntity = it.goalSavingEntity, goalEntity = it.goalEntity)
                 }
             }
         }
@@ -89,8 +90,8 @@ class GoalFragment : Fragment(R.layout.goal_fragment) {
         binding.goalSavingList.adapter = goalSavingAdapter
     }
 
-    private fun populateGoalSavings(goalSavingEntity: List<GoalSavingEntity>, currency: String) {
-        goalSavingAdapter.setGoalSavings(goalSavingList = goalSavingEntity, goalCurrency = currency)
+    private fun populateGoalSavings(goalSavingEntity: List<GoalSavingEntity>, goalEntity: GoalEntity) {
+        goalSavingAdapter.setGoalSavings(goalSavingList = goalSavingEntity, goalEntity = goalEntity)
     }
 
     private fun showDialog(bottomSheetDialogFragment: BottomSheetDialogFragment) {

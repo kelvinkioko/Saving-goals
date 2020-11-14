@@ -114,9 +114,9 @@
                 app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/targetAmount"
+                android:id="@+id/startAmount"
                 style="@style/InputOutline"
-                android:hint="@string/target_amount"
+                android:hint="Starting amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0.07"
@@ -127,7 +127,7 @@
                 app:layout_constraintStart_toStartOf="@id/guidelineStart">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/targetAmountValue"
+                    android:id="@+id/startAmountValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -148,11 +148,36 @@
                 android:layout_marginTop="8dp"
                 app:hintTextAppearance="?attr/textAppearanceBody1"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintTop_toBottomOf="@id/targetAmount"
+                app:layout_constraintTop_toBottomOf="@id/startAmount"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/incrementalAmountValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:paddingStart="0dp"
+                    android:letterSpacing="0.07"
+                    android:textAppearance="?attr/textAppearanceBody1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/targetAmount"
+                style="@style/InputOutline"
+                android:hint="@string/target_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.07"
+                android:layout_marginTop="8dp"
+                app:hintTextAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintTop_toBottomOf="@id/incrementalAmount"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/targetAmountValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -176,7 +201,7 @@
                 app:hintTextAppearance="?attr/textAppearanceBody1"
                 app:layout_constraintEnd_toStartOf="@id/endDate"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                app:layout_constraintTop_toBottomOf="@id/incrementalAmount">
+                app:layout_constraintTop_toBottomOf="@id/targetAmount">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/startDateValue"
@@ -206,7 +231,7 @@
                 app:hintTextAppearance="?attr/textAppearanceBody1"
                 app:layout_constraintStart_toEndOf="@id/startDate"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintTop_toBottomOf="@id/incrementalAmount">
+                app:layout_constraintTop_toBottomOf="@id/targetAmount">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/endDateValue"

@@ -25,6 +25,12 @@ interface GoalDao {
         amount: String
     )
 
+    @Query("UPDATE goal SET target_amount =:target_amount WHERE goalID = :goalID")
+    fun updateTargetAmount(
+        goalID: String,
+        target_amount: String
+    )
+
     @Query("DELETE FROM goal WHERE goalID = :goalID")
     fun deleteGoalByID(
         goalID: String

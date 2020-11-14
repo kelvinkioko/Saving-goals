@@ -15,6 +15,16 @@ fun getCurrentDateAsString(): String {
     return mdformat.format(calendar.time)
 }
 
+fun getEndDateAsString(day: Int, month: Int, year: Int): String {
+    val calendar = Calendar.getInstance()
+    calendar[Calendar.YEAR] = year
+    calendar[Calendar.MONTH] = month - 1
+    calendar[Calendar.DAY_OF_MONTH] = day
+    calendar.add(Calendar.DAY_OF_MONTH, 365)
+    @SuppressLint("SimpleDateFormat") val mdformat = SimpleDateFormat("dd/MM/yyyy")
+    return mdformat.format(calendar.time)
+}
+
 class Hive {
 
     fun getCurrentMonth(currentMonth: String = "", toFuture: Boolean = false, toPast: Boolean = false): Pair<String, String>? {
@@ -93,44 +103,46 @@ class Hive {
             println("loadWeeks For Month :: $i Num Week :: $maxWeekNumber")
         }
     }
+}
 
-    fun getWeekRange(year: Int, week_no: Int): Pair<String, String> {
-        val cal = Calendar.getInstance()
-        cal[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
-        cal[Calendar.YEAR] = year
-        cal[Calendar.WEEK_OF_YEAR] = week_no
-        val sunday = cal.time
-        cal.add(Calendar.DATE, 6)
-        val saturday = cal.time
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return Pair<String, String>(sdf.format(sunday), sdf.format(saturday))
-    }
+fun getWeeksOfMonth(day: Int, month: Int, year: Int): List<WeekRangeEntity> {
+    val cal = Calendar.getInstance()
+    cal[Calendar.YEAR] = year
+    cal[Calendar.MONTH] = month - 1
+    cal[Calendar.DAY_OF_MONTH] = day
 
-    fun getWeeksOfMonth(month: Int, year: Int): List<WeekRangeEntity> {
-        val cal = Calendar.getInstance()
-        cal[Calendar.YEAR] = year
-        cal[Calendar.MONTH] = month - 1
-        cal[Calendar.DAY_OF_MONTH] = 1
-        val monthDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val positionOfWeekOfYear: ArrayList<String> = ArrayList()
-        val weekRange = mutableListOf<WeekRangeEntity>()
-        for (i in 0 until monthDays) {
-            cal.set(year, month - 1, i)
-            val weekOfYear: Int = cal.get(Calendar.WEEK_OF_YEAR)
+    val positionOfWeekOfYear: ArrayList<String> = ArrayList()
+    val weekRange = mutableListOf<WeekRangeEntity>()
+    for (i in 0 until 52) {
+        val weekOfYear: Int = i + 1
 
-            if (!positionOfWeekOfYear.contains("$weekOfYear")) {
-                positionOfWeekOfYear.add("$weekOfYear")
-                val range = getWeekRange(year, cal[Calendar.WEEK_OF_YEAR])
-                weekRange.add(WeekRangeEntity(
-                    weekPosition = weekOfYear.toString(),
-                    startDate = range.first,
-                    endDate = range.second
-                ))
-            }
-            cal.add(Calendar.DATE, 1)
+        if (!positionOfWeekOfYear.contains("$weekOfYear")) {
+            positionOfWeekOfYear.add("$weekOfYear")
+            val startDate = cal.time
+            cal.add(Calendar.DATE, 6)
+            val endDate = cal.time
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+            weekRange.add(WeekRangeEntity(
+                weekPosition = weekOfYear.toString(),
+                startDate = sdf.format(startDate),
+                endDate = sdf.format(endDate)
+            ))
         }
-        return weekRange
+        cal.add(Calendar.DAY_OF_MONTH, 1)
     }
+    return weekRange
+}
+
+fun getWeekRange(week_no: Int): Pair<String, String> {
+    val cal = Calendar.getInstance()
+    cal[Calendar.DAY_OF_WEEK] = Calendar.SUNDAY
+    cal[Calendar.WEEK_OF_YEAR] = week_no
+    val sunday = cal.time
+    cal.add(Calendar.DATE, 6)
+    val saturday = cal.time
+    val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return Pair<String, String>(sdf.format(sunday), sdf.format(saturday))
 }
 
 fun getMonthGivenNumber(monthNumber: String): String {
@@ -206,13 +218,6 @@ fun getCurrentDateAsDate(): Date {
     return calendar.time
 }
 
-fun String.formatAmount(): String {
-    val pattern = "###,##0.00"
-    val decFormat = DecimalFormat(pattern)
-    if (this.isNullOrEmpty()) return "0.00"
-    return decFormat.format(this.toDouble())
-}
-
 @SuppressLint("SimpleDateFormat")
 fun formatDateHeader(date: String): String {
     val inFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -221,6 +226,17 @@ fun formatDateHeader(date: String): String {
     val dayFormat = SimpleDateFormat("dd").format(input)
     val monthFormat = SimpleDateFormat("MMM").format(input)
     val yearFormat = SimpleDateFormat("yyyy").format(input)
+
+    return "$dayFormat, $monthFormat $yearFormat"
+}
+
+@SuppressLint("SimpleDateFormat")
+fun formatDateHeaderWithSmallYear(date: String): String {
+    val inFormat = SimpleDateFormat("dd/MM/yyyy")
+    val input: Date = inFormat.parse(date)
+    val dayFormat = SimpleDateFormat("dd").format(input)
+    val monthFormat = SimpleDateFormat("MMM").format(input)
+    val yearFormat = SimpleDateFormat("yy").format(input)
 
     return "$dayFormat, $monthFormat $yearFormat"
 }

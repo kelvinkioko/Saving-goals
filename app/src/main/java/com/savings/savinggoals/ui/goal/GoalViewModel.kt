@@ -27,6 +27,16 @@ class GoalViewModel(private val goalRepository: GoalRepository) : ViewModel() {
         _uiState.postValue(GoalUIState.DisplayGoal(goalEntity = goalEntity, goalSavingEntity = goalSavingEntity))
     }
 
+    fun manageGoalSavingClick(goalSaving: GoalSavingEntity) {
+        if (this::goalEntity.isInitialized) {
+            val amountUpdate = goalEntity.amount.toFloat() + goalSaving.amount.toFloat()
+            goalRepository.updateGoalAmount(goalID = goalEntity.goalID, amount = amountUpdate.toString())
+        }
+
+        goalRepository.updateGoalSaving(savingID = goalSaving.savingID, save_status = "Complete")
+        loadGoal(goalID = goalEntity.goalID)
+    }
+
     fun addTransaction() {
         val bottomSheetFragment = SavingEntryBottomSheet(
             goalID = goalEntity.goalID,

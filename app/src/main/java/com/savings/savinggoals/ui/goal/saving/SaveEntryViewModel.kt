@@ -31,7 +31,6 @@ class SaveEntryViewModel(private val goalRepository: GoalRepository) : ViewModel
             id = 0,
             savingID = "GSE-${Hive().getTimestamp()}",
             goalID = goalID,
-            name = "", // this is for the 52 week savings to hold the week count
             amount = amount,
             note = note,
             save_type = type,
