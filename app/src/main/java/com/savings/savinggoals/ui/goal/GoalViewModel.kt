@@ -29,11 +29,17 @@ class GoalViewModel(private val goalRepository: GoalRepository) : ViewModel() {
 
     fun manageGoalSavingClick(goalSaving: GoalSavingEntity) {
         if (this::goalEntity.isInitialized) {
-            val amountUpdate = goalEntity.amount.toFloat() + goalSaving.amount.toFloat()
-            goalRepository.updateGoalAmount(goalID = goalEntity.goalID, amount = amountUpdate.toString())
+            if (goalSaving.save_status.equals("Pending", ignoreCase = true)) {
+                val amountUpdate = goalEntity.amount.toFloat() + goalSaving.amount.toFloat()
+                goalRepository.updateGoalAmount(goalID = goalEntity.goalID, amount = amountUpdate.toString())
+                goalRepository.updateGoalSaving(savingID = goalSaving.savingID, save_status = "Complete")
+            } else {
+                val amountUpdate = goalEntity.amount.toFloat() - goalSaving.amount.toFloat()
+                goalRepository.updateGoalAmount(goalID = goalEntity.goalID, amount = amountUpdate.toString())
+                goalRepository.updateGoalSaving(savingID = goalSaving.savingID, save_status = "Pending")
+            }
         }
 
-        goalRepository.updateGoalSaving(savingID = goalSaving.savingID, save_status = "Complete")
         loadGoal(goalID = goalEntity.goalID)
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Saving Goals</string>
+    <string name="app_name">Thrive: Savings goal manager</string>
 
     <string name="share_message">Achieve financial freedom by managing your money like a professional with money manager</string>
     <string name="add_goal">Add goal</string>
