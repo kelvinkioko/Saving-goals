@@ -21,8 +21,6 @@ import com.savings.savinggoals.util.getUnformatedAmount
 import com.savings.savinggoals.util.observeEvent
 import com.savings.savinggoals.util.viewBinding
 import java.text.SimpleDateFormat
-import kotlinx.android.synthetic.main.add_goal_fragment.endDateValue
-import kotlinx.android.synthetic.main.add_goal_fragment.targetAmountValue
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddGoalFragment : Fragment(R.layout.add_goal_fragment) {
@@ -128,8 +126,8 @@ class AddGoalFragment : Fragment(R.layout.add_goal_fragment) {
                     }
                 }
                 is AddGoalUIState.GoalType -> updateGoalTypeView(it.goalTypeEntity)
-                is AddGoalUIState.TargetAmount -> targetAmountValue.setText("${it.targetAmount.formatAmount()} ${preferenceHandler.getCurrency()!!}")
-                is AddGoalUIState.UpdateEndDate -> endDateValue.setText(it.endDate)
+                is AddGoalUIState.TargetAmount -> binding.targetAmountValue.setText("${it.targetAmount.formatAmount()} ${preferenceHandler.getCurrency()!!}")
+                is AddGoalUIState.UpdateEndDate -> binding.endDateValue.setText(it.endDate)
             }
         }
     }

@@ -1,13 +1,14 @@
 package com.savings.savinggoals.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.databinding.ItemGoalBinding
 import com.savings.savinggoals.util.formatAmount
 
-class HomeAdapter(private val goalTypeClicked: (GoalEntity) -> Unit) :
+class HomeAdapter(private val goalTypeClicked: (GoalEntity, View) -> Unit) :
     RecyclerView.Adapter<HomeAdapter.TransactionViewHolder>() {
 
     private val items = mutableListOf<GoalEntity>()
@@ -39,7 +40,7 @@ class HomeAdapter(private val goalTypeClicked: (GoalEntity) -> Unit) :
 
         init {
             itemView.setOnClickListener {
-                goalTypeClicked.invoke(items[adapterPosition])
+                goalTypeClicked.invoke(items[adapterPosition], binding.cardView)
             }
         }
 
@@ -49,7 +50,7 @@ class HomeAdapter(private val goalTypeClicked: (GoalEntity) -> Unit) :
                 goalType.text = goal.type.split("#")[1]
                 goalDescription.text = goal.description
 
-                goalAmount.text = "${goal.amount.formatAmount()} ${goal.currency} / ${goal.target_amount.formatAmount()} ${goal.currency}"
+                goalAmount.text = "(${goal.amount.formatAmount()} / ${goal.target_amount.formatAmount()}) ${goal.currency}"
                 goalProgress.apply {
                     setMax(goal.target_amount.toFloat())
                     setProgress(goal.amount.toFloat())

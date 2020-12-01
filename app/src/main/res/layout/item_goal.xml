@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="8dp"
@@ -14,8 +15,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
-        android:paddingHorizontal="8dp"
         android:minHeight="60dp">
+
+        <ImageView
+            android:id="@+id/goalVisual"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:src="@drawable/samsungmemory"
+            android:scaleType="matrix"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/goalName"
@@ -28,11 +38,12 @@
             android:textAppearance="?attr/textAppearanceHeadline5"
             android:textSize="16sp"
             android:textColor="@color/primary_text"
+            android:layout_marginHorizontal="8dp"
             app:layout_goneMarginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/goalType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goalVisual"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Takezo Kensei" />
 
@@ -43,10 +54,11 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:textAppearance="?attr/textAppearanceCaption"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:layout_marginVertical="2dp"
             android:maxLines="2"
             android:textStyle="italic"
+            android:layout_marginHorizontal="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goalName"
@@ -63,8 +75,9 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="12dp"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="@color/secondary_text"
+            android:layout_marginHorizontal="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goalType"
@@ -74,7 +87,7 @@
         <com.savings.savinggoals.widget.progress.RoundCornerProgressBar
             android:id="@+id/goalProgress"
             android:layout_width="0dp"
-            android:layout_height="16dp"
+            android:layout_height="10dp"
             android:layout_marginBottom="4dp"
             app:rcBackgroundColor="#2549b583"
             app:rcBackgroundPadding="2dp"
@@ -85,6 +98,7 @@
             app:rcProgress="0"
             app:rcProgressColor="@color/colorAccent"
             app:rcRadius="10dp"
+            android:layout_marginHorizontal="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/goalAmount"/>
@@ -99,10 +113,27 @@
             android:textSize="14sp"
             android:layout_marginBottom="8dp"
             android:maxLines="2"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="0.00 KES / 152,000.00 KES"/>
+
+        <TextView
+            android:id="@+id/goalDueDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="2"
+            android:gravity="end"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/goalAmount"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Due on 12/12/2020"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

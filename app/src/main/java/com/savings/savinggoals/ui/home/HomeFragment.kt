@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
+import com.google.android.material.transition.MaterialFadeThrough
 import com.savings.savinggoals.R
 import com.savings.savinggoals.constants.setup.DefaultUIState
 import com.savings.savinggoals.constants.setup.DefaultViewModel
@@ -27,17 +28,23 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     private val viewModel: HomeViewModel by viewModel()
     private val setupViewModel: DefaultViewModel by viewModel()
 
+    private lateinit var cardView: View
+
     private val homeAdapter: HomeAdapter by lazy {
-        HomeAdapter { onGoalPicked(it) }
+        HomeAdapter { goalEntity: GoalEntity, view: View -> onGoalPicked(goalEntity, view) }
     }
 
-    private fun onGoalPicked(goal: GoalEntity) {
+    private fun onGoalPicked(goal: GoalEntity, cardView: View) {
+        this.cardView = cardView
         viewModel.viewGoal(goalID = goal.goalID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
     }
 
     override fun onCreateView(
@@ -86,7 +93,9 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
 
         viewModel.action.observeEvent(viewLifecycleOwner) {
             when (it) {
-                is HomeActions.Navigate -> findNavController().navigate(it.destination)
+                is HomeActions.Navigate -> {
+                    findNavController().navigate(it.destination)
+                }
             }
         }
     }
