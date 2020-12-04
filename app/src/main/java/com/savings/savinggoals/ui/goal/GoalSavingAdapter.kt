@@ -3,7 +3,10 @@ package com.savings.savinggoals.ui.goal
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.savings.savinggoals.R
 import com.savings.savinggoals.constants.formatDateHeader
 import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.database.entity.GoalSavingEntity
@@ -43,22 +46,37 @@ class GoalSavingAdapter(private val goalSavingClicked: (GoalSavingEntity) -> Uni
 
         init {
             itemView.setOnClickListener {
-                goalSavingClicked.invoke(items[adapterPosition])
+                if (goalEntity.type.split("#")[0].equals("GT52", ignoreCase = true)) {
+                    goalSavingClicked.invoke(items[adapterPosition])
+                }
             }
         }
 
         fun bind(goalSaving: GoalSavingEntity) {
             binding.apply {
-                goalSavingTitle.text = if (goalEntity.type.split("#")[0].equals("GT52", ignoreCase = true)) {
-                    formatDateHeader(goalSaving.startDate) + " - " + formatDateHeader(goalSaving.endDate)
+                val resource = savingIndicator.context.resources
+                if (goalEntity.type.split("#")[0].equals("GT52", ignoreCase = true)) {
+                    goalSavingTitle.text = formatDateHeader(goalSaving.startDate) + " - " + formatDateHeader(goalSaving.endDate)
+                    goalSavingDescription.text = goalSaving.weekPosition
+                    goalSavingDescription.isVisible = true
                 } else {
-                    formatDateHeader(goalSaving.createdAt)
+                    goalSavingTitle.text = formatDateHeader(goalSaving.createdAt)
+                    goalSavingDescription.text = goalSaving.save_type
+                    goalSavingDescription.isVisible = true
+                }
+                if (goalSaving.save_type.equals("Deposit", ignoreCase = true) || goalSaving.save_type.equals("Saving", ignoreCase = true)) {
+                    savingIndicator.setImageDrawable(VectorDrawableCompat.create(resource, R.drawable.ic_plus, null)!!)
+                    goalSavingAmount.setTextColor(resource.getColor(R.color.colorPositive))
+                } else {
+                    savingIndicator.setImageDrawable(VectorDrawableCompat.create(resource, R.drawable.ic_minus, null)!!)
+                    goalSavingAmount.setTextColor(resource.getColor(R.color.colorNegative))
+                }
+                if (goalSaving.save_status.equals("Pending", ignoreCase = true)) {
+                    savingIndicator.isGone = true
+                } else {
+                    savingIndicator.isVisible = true
                 }
                 goalSavingAmount.text = "${goalSaving.amount} ${goalEntity.currency}"
-                goalSavingDescription.text = goalSaving.weekPosition
-                goalSavingDescription.isGone = goalSaving.weekPosition.isEmpty()
-
-                savingRadio.isChecked = goalSaving.save_status.equals("Complete", ignoreCase = true)
             }
         }
     }

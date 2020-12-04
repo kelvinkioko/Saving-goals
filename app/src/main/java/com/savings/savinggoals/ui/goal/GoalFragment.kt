@@ -80,8 +80,8 @@ class GoalFragment : Fragment(R.layout.goal_fragment) {
             goalDescription.text = goalEntity.description
             goalAmount.text = "${goalEntity.amount.formatAmount()} ${goalEntity.currency} / ${goalEntity.target_amount.formatAmount()}  ${goalEntity.currency}"
             goalProgress.apply {
-                setMax(Integer.parseInt(goalEntity.target_amount.split(".")[0]))
-                setProgress(Integer.parseInt(goalEntity.amount.split(".")[0]))
+                setMax((goalEntity.target_amount.split(".")[0]).toFloat())
+                setProgress((goalEntity.amount.split(".")[0]).toFloat())
             }
         }
     }

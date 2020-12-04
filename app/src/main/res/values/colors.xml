@@ -18,8 +18,8 @@
     <color name="statusBarColor">#2e95ec</color>
 
     <!--    State colors    -->
-    <color name="colorPositive">#38aba5</color>
-    <color name="colorNegative">#e25d6f</color>
+    <color name="colorPositive">#4cb050</color>
+    <color name="colorNegative">#f44236</color>
     <color name="colorIdle">#ffb74d</color>
     <color name="colorTransparent">#00000000</color>
 

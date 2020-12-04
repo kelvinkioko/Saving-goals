@@ -16,41 +16,10 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"
+        app:menu="@menu/goal_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.savings.savinggoals.widget.progress.ArcProgress
-        android:id="@+id/goalProgress"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginVertical="32dp"
-        app:arc_bottom_text_size="12dp"
-        app:arc_progress="0"
-        app:arc_stroke_width="14dp"
-        app:arc_suffix_text_size="0sp"
-        app:arc_text_color="@color/colorPositive"
-        app:arc_text_size="0sp"
-        app:arc_unfinished_color="#2549b583"
-        app:arc_finished_color="@color/colorAccent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
-
-    <TextView
-        android:id="@+id/goalAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:includeFontPadding="false"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp"
-        android:maxLines="2"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/goalProgress"
-        android:text="0.00 KES / 152,000.00 KES"/>
 
     <TextView
         android:id="@+id/goalTitle"
@@ -59,7 +28,80 @@
         android:gravity="center"
         android:text="Settings"
         android:textColor="@color/primary_text"
-        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" >
+
+        <ImageView
+            android:id="@+id/goalVisual"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/samsungmemory"
+            android:scaleType="matrix"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/goalAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        android:text="0.00 KES / 152,000.00 KES"/>
+
+    <TextView
+        android:id="@+id/goalDueDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toEndOf="@+id/goalAmount"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:text="Due on 12/12/2020"/>
+
+    <com.savings.savinggoals.widget.progress.RoundCornerProgressBar
+        android:id="@+id/goalProgress"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="4dp"
+        app:rcBackgroundColor="#2549b583"
+        app:rcBackgroundPadding="2dp"
+        app:rcIconBackgroundColor="@color/colorTransparent"
+        app:rcIconPadding="2dp"
+        app:rcIconSize="15dp"
+        app:rcMax="100"
+        app:rcProgress="0"
+        app:rcProgressColor="@color/colorAccent"
+        app:rcRadius="10dp"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@+id/goalAmount"/>
@@ -74,8 +116,8 @@
         android:textSize="13sp"
         android:maxLines="2"
         android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@+id/goalTitle"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/goalProgress"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         android:text="52 Week challenge"/>
 
@@ -83,12 +125,11 @@
         android:id="@+id/goalDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:ellipsize="end"
         android:includeFontPadding="false"
         android:textAppearance="?attr/textAppearanceBody1"
         android:textSize="16sp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:textColor="@color/secondary_text"
         app:layout_constraintTop_toBottomOf="@+id/goalType"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -109,7 +150,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Saving history"
+        android:text="Recent transactions"
         android:textColor="@color/primary_text"
         android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -134,9 +175,9 @@
         android:id="@+id/addSaving"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add saving"
         android:textAllCaps="false"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorAccent"
         android:textColor="@color/colorWhite"
         app:icon="@drawable/ic_add_goal"

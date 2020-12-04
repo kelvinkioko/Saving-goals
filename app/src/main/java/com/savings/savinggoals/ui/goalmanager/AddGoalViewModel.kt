@@ -137,7 +137,7 @@ class AddGoalViewModel(private val goalRepository: GoalRepository) : ViewModel()
                         endDate = weeksRange[i].endDate,
                         amount = amount.toString(),
                         note = "",
-                        save_type = "Saving",
+                        save_type = "Deposit",
                         save_status = "Pending", // Can either be pending or Complete
                         goal_date = getCurrentDateAsDate(),
                         createdAt = getCurrentDateAsString()

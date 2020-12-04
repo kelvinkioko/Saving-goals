@@ -29,7 +29,7 @@ class SavingEntryBottomSheet(private val goalID: String, private val currency: S
     private val viewModel: SaveEntryViewModel by viewModel()
 
     private var transactionDateEntry = ""
-    private var transactionTypeEntry = "Saving"
+    private var transactionTypeEntry = "Deposit"
 
     /**
      * This function makes BottomSheetDialogFragment full screen and without collapsed state
@@ -77,7 +77,7 @@ class SavingEntryBottomSheet(private val goalID: String, private val currency: S
                 dismiss()
             }
             transactionSaving.apply {
-                transactionName.text = "Saving"
+                transactionName.text = "Deposit"
                 transactionRadio.isChecked = true
             }
             transactionWithdraw.apply {
@@ -87,7 +87,7 @@ class SavingEntryBottomSheet(private val goalID: String, private val currency: S
             transactionSaving.root.setOnClickListener {
                 transactionSaving.transactionRadio.isChecked = true
                 transactionWithdraw.transactionRadio.isChecked = false
-                transactionTypeEntry = "Saving"
+                transactionTypeEntry = "Deposit"
             }
             transactionWithdraw.root.setOnClickListener {
                 transactionSaving.transactionRadio.isChecked = false
@@ -108,7 +108,7 @@ class SavingEntryBottomSheet(private val goalID: String, private val currency: S
             }
             saveGoal.setOnClickListener {
                 if (transactionAmountValue.text.toString().isEmpty()) {
-                    transactionAmount.error = "Please set the amount ${if (transactionTypeEntry.equals("Saving", true)) "saved" else "withdrawn"}"
+                    transactionAmount.error = "Please set the amount ${if (transactionTypeEntry.equals("Deposit", true)) "Deposit" else "withdrawal"}"
                 } else {
                     viewModel.saveGoal(
                         goalID = goalID,

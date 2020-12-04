@@ -20,18 +20,26 @@
         <ImageView
             android:id="@+id/goalVisual"
             android:layout_width="0dp"
-            android:layout_height="140dp"
+            android:layout_height="120dp"
             android:src="@drawable/samsungmemory"
             android:scaleType="matrix"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@drawable/toolbar_shadow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goalVisual"/>
+
         <TextView
             android:id="@+id/goalName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"

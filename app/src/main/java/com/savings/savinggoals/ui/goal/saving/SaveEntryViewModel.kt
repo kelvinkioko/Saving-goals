@@ -19,7 +19,7 @@ class SaveEntryViewModel(private val goalRepository: GoalRepository) : ViewModel
         goalEntity = goalRepository.loadGoalByID(goalID = goalID)
 
         if (this::goalEntity.isInitialized) {
-            val amountUpdate = if (type.equals("Saving", ignoreCase = true)) {
+            val amountUpdate = if (type.equals("Deposit", ignoreCase = true)) {
                 goalEntity.amount.toFloat() + amount.toFloat()
             } else {
                 goalEntity.amount.toFloat() - amount.toFloat()
