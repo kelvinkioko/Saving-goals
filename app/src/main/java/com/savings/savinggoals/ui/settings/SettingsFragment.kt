@@ -18,8 +18,11 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.savings.savinggoals.R
+import com.savings.savinggoals.constants.PermissionListener
 import com.savings.savinggoals.databinding.SettingsFragmentBinding
+import com.savings.savinggoals.util.backupDatabase
 import com.savings.savinggoals.util.drive.DriveServiceHelper
+import com.savings.savinggoals.util.restoreDatabase
 import com.savings.savinggoals.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -59,17 +62,20 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
                 viewModel.rateApp(requireActivity())
             }
             backUpContent.setOnClickListener {
-                val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-                if (account == null) {
-                    signIn()
-                } else {
-                    mDriveServiceHelper = DriveServiceHelper(
-                        getGoogleDriveService(requireContext(), account, getString(R.string.app_name))
-                    )
-                }
+//                val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+//                if (account == null) {
+//                    signIn()
+//                } else {
+//                    mDriveServiceHelper = DriveServiceHelper(
+//                        getGoogleDriveService(requireContext(), account, getString(R.string.app_name))
+//                    )
+//                }
+
+                backupDatabase(context = requireContext())
             }
             restoreContent.setOnClickListener {
-                viewModel.rateApp(requireActivity())
+                PermissionListener(requireActivity()).loadPermissions()
+                restoreDatabase(context = requireContext())
             }
         }
     }
