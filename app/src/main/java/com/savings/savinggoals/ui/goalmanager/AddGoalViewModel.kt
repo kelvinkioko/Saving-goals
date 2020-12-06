@@ -1,8 +1,11 @@
 package com.savings.savinggoals.ui.goalmanager
 
+import android.app.Activity
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.savings.savinggoals.constants.Hive
@@ -15,9 +18,14 @@ import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.database.entity.GoalSavingEntity
 import com.savings.savinggoals.database.entity.GoalTypeEntity
 import com.savings.savinggoals.database.repository.GoalRepository
+import com.savings.savinggoals.ui.goalmanager.image.ImageUpdateBottomSheet
 import com.savings.savinggoals.ui.goalmanager.type.GoalTypeBottomSheet
 import com.savings.savinggoals.util.Event
 import com.savings.savinggoals.util.asEvent
+import com.savings.savinggoals.util.getBitmapFormUri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddGoalViewModel(private val goalRepository: GoalRepository) : ViewModel() {
     private val _uiState = MutableLiveData<AddGoalUIState>()
@@ -29,6 +37,7 @@ class AddGoalViewModel(private val goalRepository: GoalRepository) : ViewModel()
     private lateinit var goalTypeEntity: GoalTypeEntity
     private lateinit var startDate: String
     private lateinit var endDate: String
+    private var bitmapUri: Uri? = null
 
     init {
         setupDefaultGoalType()
@@ -98,57 +107,82 @@ class AddGoalViewModel(private val goalRepository: GoalRepository) : ViewModel()
         _action.postValue(AddGoalActions.BottomNavigate(bottomSheetFragment).asEvent())
     }
 
-    fun saveGoal(goalName: String, goalDescription: String, startAmount: String, targetAmount: String, incrementalAmount: String, currency: String) {
-        val goalID = "GOAL-${Hive().getTimestamp()}"
-        val goal = GoalEntity(
-            id = 0,
-            goalID = goalID,
-            name = goalName,
-            description = goalDescription,
-            currency = currency,
-            amount = "0.00",
-            target_amount = targetAmount,
-            increment_amount = incrementalAmount,
-            start_date = startDate,
-            target_date = endDate,
-            type = "${goalTypeEntity.goalTypeID}#${goalTypeEntity.goalType}",
-            image = "",
-            goal_date = getCurrentDateAsDate(),
-            createdAt = getCurrentDateAsString()
+    fun chooseCoverPhoto() {
+        val bottomSheetFragment = ImageUpdateBottomSheet(
+            resendGoalTypeCallback = {
+                this.bitmapUri = it
+                _uiState.postValue(AddGoalUIState.DisplayBitmap(it))
+            }
         )
-        goalRepository.insertGoal(goal)
+        _action.postValue(AddGoalActions.BottomNavigate(bottomSheetFragment).asEvent())
+    }
 
-        if (goalTypeEntity.goalTypeID.equals("GT52", ignoreCase = true)) {
-            var totalAmount = 0.0f
-            if (this::startDate.isInitialized) {
-                val dateArray = startDate.split("/")
-                val weeksRange = getWeeksOfMonth(day = dateArray[0].toInt(), month = dateArray[1].toInt(), year = dateArray[2].toInt())
+    fun removeCoverPhoto() {
+        bitmapUri = null
+        _uiState.postValue(AddGoalUIState.CoverPhotoRemoved)
+    }
 
-                for (i in weeksRange.indices) {
-                    val amount = if (i > 0) startAmount.toFloat() + (incrementalAmount.toFloat() * i) else startAmount.toFloat()
-                    totalAmount += amount
-
-                    val goalSavingEntity = GoalSavingEntity(
-                        id = 0,
-                        savingID = "GSE-${Hive().getTimestamp()}-$i",
-                        goalID = goalID,
-                        weekPosition = "Week ${i + 1} of 52",
-                        startDate = weeksRange[i].startDate,
-                        endDate = weeksRange[i].endDate,
-                        amount = amount.toString(),
-                        note = "",
-                        save_type = "Deposit",
-                        save_status = "Pending", // Can either be pending or Complete
-                        goal_date = getCurrentDateAsDate(),
-                        createdAt = getCurrentDateAsString()
-                    )
-                    goalRepository.insertGoalSaving(goalSavingEntity = goalSavingEntity)
+    fun saveGoal(activity: Activity, goalName: String, goalDescription: String, startAmount: String, targetAmount: String, incrementalAmount: String, currency: String) {
+        viewModelScope.launch() {
+            withContext(Dispatchers.IO) {
+                val coverImage = if (bitmapUri != null) {
+                    getBitmapFormUri(activity = activity, uri = bitmapUri)
+                } else {
+                    ""
                 }
-                goalRepository.updateTargetAmount(goalID = goalID, target_amount = totalAmount.toString())
+
+                val goalID = "GOAL-${Hive().getTimestamp()}"
+                val goal = GoalEntity(
+                    id = 0,
+                    goalID = goalID,
+                    name = goalName,
+                    description = goalDescription,
+                    currency = currency,
+                    amount = "0.00",
+                    target_amount = targetAmount,
+                    increment_amount = incrementalAmount,
+                    start_date = startDate,
+                    target_date = endDate,
+                    type = "${goalTypeEntity.goalTypeID}#${goalTypeEntity.goalType}",
+                    image = coverImage,
+                    goal_date = getCurrentDateAsDate(),
+                    createdAt = getCurrentDateAsString()
+                )
+                goalRepository.insertGoal(goal)
+
+                if (goalTypeEntity.goalTypeID.equals("GT52", ignoreCase = true)) {
+                    var totalAmount = 0.0f
+                    if (::startDate.isInitialized) {
+                        val dateArray = startDate.split("/")
+                        val weeksRange = getWeeksOfMonth(day = dateArray[0].toInt(), month = dateArray[1].toInt(), year = dateArray[2].toInt())
+
+                        for (i in weeksRange.indices) {
+                            val amount = if (i > 0) startAmount.toFloat() + (incrementalAmount.toFloat() * i) else startAmount.toFloat()
+                            totalAmount += amount
+
+                            val goalSavingEntity = GoalSavingEntity(
+                                id = 0,
+                                savingID = "GSE-${Hive().getTimestamp()}-$i",
+                                goalID = goalID,
+                                weekPosition = "Week ${i + 1} of 52",
+                                startDate = weeksRange[i].startDate,
+                                endDate = weeksRange[i].endDate,
+                                amount = amount.toString(),
+                                note = "",
+                                save_type = "Deposit",
+                                save_status = "Pending", // Can either be pending or Complete
+                                goal_date = getCurrentDateAsDate(),
+                                createdAt = getCurrentDateAsString()
+                            )
+                            goalRepository.insertGoalSaving(goalSavingEntity = goalSavingEntity)
+                        }
+                        goalRepository.updateTargetAmount(goalID = goalID, target_amount = totalAmount.toString())
+                    }
+                }
+
+                _uiState.postValue(AddGoalUIState.Success)
             }
         }
-
-        _uiState.postValue(AddGoalUIState.Success)
     }
 }
 
@@ -161,7 +195,11 @@ sealed class AddGoalActions {
 sealed class AddGoalUIState {
     object Success : AddGoalUIState()
 
+    object CoverPhotoRemoved : AddGoalUIState()
+
     data class PageSetup(val goalTypeEntity: GoalTypeEntity, val startDate: String, val endDate: String) : AddGoalUIState()
+
+    data class DisplayBitmap(val bitmap: Uri) : AddGoalUIState()
 
     data class GoalType(val goalTypeEntity: GoalTypeEntity) : AddGoalUIState()
 

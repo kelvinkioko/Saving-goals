@@ -3,10 +3,14 @@ package com.savings.savinggoals.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.savings.savinggoals.database.entity.GoalEntity
 import com.savings.savinggoals.databinding.ItemGoalBinding
 import com.savings.savinggoals.util.formatAmount
+import com.savings.savinggoals.util.stringToBitMap
 
 class HomeAdapter(private val goalTypeClicked: (GoalEntity, View) -> Unit) :
     RecyclerView.Adapter<HomeAdapter.TransactionViewHolder>() {
@@ -54,6 +58,14 @@ class HomeAdapter(private val goalTypeClicked: (GoalEntity, View) -> Unit) :
                 goalProgress.apply {
                     setMax(goal.target_amount.toFloat())
                     setProgress(goal.amount.toFloat())
+                }
+
+                if (goal.image.isNotEmpty()) {
+                    val bitmap = stringToBitMap(goal.image)
+                    Glide.with(goalVisual.context).load(bitmap).into(goalVisual) // handle chosen image
+                    goalVisualGroup.isVisible = true
+                } else {
+                    goalVisualGroup.isGone = true
                 }
             }
         }

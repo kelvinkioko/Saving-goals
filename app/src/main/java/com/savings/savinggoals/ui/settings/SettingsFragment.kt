@@ -67,7 +67,6 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
                         getGoogleDriveService(requireContext(), account, getString(R.string.app_name))
                     )
                 }
-                viewModel.rateApp(requireActivity())
             }
             restoreContent.setOnClickListener {
                 viewModel.rateApp(requireActivity())

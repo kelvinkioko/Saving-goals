@@ -1,5 +1,6 @@
 package com.savings.savinggoals.ui.goalmanager
 
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.savings.savinggoals.R
@@ -84,26 +86,31 @@ class AddGoalFragment : Fragment(R.layout.add_goal_fragment) {
                 }
             }
             saveGoal.setOnClickListener {
-                binding.apply {
-                    if (goalName.editText!!.text.toString().isEmpty()) {
-                        goalName.error = "Please give your goal a name"
-                    } else if (goalDescription.editText!!.text.toString().isEmpty()) {
-                        goalDescription.error = "Please describe your goal"
-                    } else if (goalTypeEntity.goalTypeID.equals("GT52", ignoreCase = true) && incrementalAmountValue.text.toString().isEmpty()) {
-                        incrementalAmount.error = "Please set you weekly incremental amount"
-                    } else if (!goalTypeEntity.goalTypeID.equals("GT52", ignoreCase = true) && targetAmountValue.text.toString().isEmpty()) {
-                        targetAmount.error = "Please set the total amount you wish to save"
-                    } else {
-                        viewModel.saveGoal(
-                            goalName = goalName.editText!!.text.toString(),
-                            goalDescription = goalDescription.editText!!.text.toString(),
-                            startAmount = startAmountValue.getUnformatedAmount().replace(preferenceHandler.getCurrency()!!, ""),
-                            targetAmount = targetAmountValue.getUnformatedAmount().replace(preferenceHandler.getCurrency()!!, ""),
-                            incrementalAmount = incrementalAmountValue.getUnformatedAmount().replace(preferenceHandler.getCurrency()!!, ""),
-                            currency = preferenceHandler.getCurrency()!!
-                        )
-                    }
+                if (goalName.editText!!.text.toString().isEmpty()) {
+                    goalName.error = "Please give your goal a name"
+                } else if (goalDescription.editText!!.text.toString().isEmpty()) {
+                    goalDescription.error = "Please describe your goal"
+                } else if (goalTypeEntity.goalTypeID.equals("GT52", ignoreCase = true) && incrementalAmountValue.text.toString().isEmpty()) {
+                    incrementalAmount.error = "Please set you weekly incremental amount"
+                } else if (!goalTypeEntity.goalTypeID.equals("GT52", ignoreCase = true) && targetAmountValue.text.toString().isEmpty()) {
+                    targetAmount.error = "Please set the total amount you wish to save"
+                } else {
+                    viewModel.saveGoal(
+                        activity = requireActivity(),
+                        goalName = goalName.editText!!.text.toString(),
+                        goalDescription = goalDescription.editText!!.text.toString(),
+                        startAmount = startAmountValue.getUnformatedAmount().replace(preferenceHandler.getCurrency()!!, ""),
+                        targetAmount = targetAmountValue.getUnformatedAmount().replace(preferenceHandler.getCurrency()!!, ""),
+                        incrementalAmount = incrementalAmountValue.getUnformatedAmount().replace(preferenceHandler.getCurrency()!!, ""),
+                        currency = preferenceHandler.getCurrency()!!
+                    )
                 }
+            }
+            addImageView.setOnClickListener {
+                viewModel.chooseCoverPhoto()
+            }
+            goalVisualRemove.setOnClickListener {
+                viewModel.removeCoverPhoto()
             }
         }
     }
@@ -118,6 +125,7 @@ class AddGoalFragment : Fragment(R.layout.add_goal_fragment) {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is AddGoalUIState.Success -> findNavController().navigateUp()
+                is AddGoalUIState.CoverPhotoRemoved -> binding.goalVisualGroup.isGone = true
                 is AddGoalUIState.PageSetup -> {
                     updateGoalTypeView(it.goalTypeEntity)
                     binding.apply {
@@ -125,10 +133,18 @@ class AddGoalFragment : Fragment(R.layout.add_goal_fragment) {
                         endDateValue.setText(it.endDate)
                     }
                 }
+                is AddGoalUIState.DisplayBitmap -> renderGoalCover(it.bitmap)
                 is AddGoalUIState.GoalType -> updateGoalTypeView(it.goalTypeEntity)
                 is AddGoalUIState.TargetAmount -> binding.targetAmountValue.setText("${it.targetAmount.formatAmount()} ${preferenceHandler.getCurrency()!!}")
                 is AddGoalUIState.UpdateEndDate -> binding.endDateValue.setText(it.endDate)
             }
+        }
+    }
+
+    private fun renderGoalCover(bitmap: Uri) {
+        binding.apply {
+            goalVisualGroup.isVisible = true
+            Glide.with(requireContext()).load(bitmap).into(goalVisual) // handle chosen image
         }
     }
 

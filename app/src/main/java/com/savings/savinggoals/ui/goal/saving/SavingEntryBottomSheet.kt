@@ -1,6 +1,5 @@
 package com.savings.savinggoals.ui.goal.saving
 
-import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,8 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.savings.savinggoals.R
@@ -30,24 +27,6 @@ class SavingEntryBottomSheet(private val goalID: String, private val currency: S
 
     private var transactionDateEntry = ""
     private var transactionTypeEntry = "Deposit"
-
-    /**
-     * This function makes BottomSheetDialogFragment full screen and without collapsed state
-     * For some reason this doesn't work without the params.height
-     */
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.setOnShowListener {
-            val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-            val params = bottomSheet.layoutParams
-            bottomSheet.layoutParams = params
-            BottomSheetBehavior.from(bottomSheet).apply {
-                state = BottomSheetBehavior.STATE_EXPANDED
-                skipCollapsed = true
-            }
-        }
-        return dialog
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
